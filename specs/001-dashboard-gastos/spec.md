@@ -91,7 +91,10 @@ comparativo mostra valores por mes e categorias mais recorrentes.
   periodo selecionado.
 - **RF-006**: O sistema DEVE permitir comparar meses dentro de um periodo
   selecionavel (padrao: ultimos 3 meses).
-- **RF-007**: O sistema DEVE preservar os dados cadastrados entre sessoes de uso.
+- **RF-007**: O sistema DEVE preservar os dados cadastrados localmente na mesma
+  maquina entre sessoes de uso.
+- **RF-008**: O sistema DEVE permitir exportar despesas em formato CSV.
+- **RF-009**: O sistema DEVE permitir importar despesas em formato CSV.
 
 ### Entidades Principais *(inclua se a funcionalidade envolver dados)*
 
@@ -104,6 +107,15 @@ comparativo mostra valores por mes e categorias mais recorrentes.
 - Uso pessoal e individual, sem perfis multiplos.
 - Nao ha necessidade de autenticacao.
 - Valores seguem a moeda local do usuario.
+- Dados armazenados localmente na mesma maquina.
+
+## Clarifications
+
+### Session 2026-01-09
+
+- Q: Onde os dados devem ficar armazenados? -> A: Banco local na mesma maquina (app web local).
+- Q: Voce quer importacao/exportacao de dados? -> A: Importar e exportar CSV.
+- Q: Precisa de controle de acesso ou apenas uso local sem autenticacao? -> A: Sem autenticacao (uso local).
 
 ## Criterios de Sucesso *(obrigatorio)*
 

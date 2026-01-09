@@ -1,0 +1,15 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+  <div class="container">
+    <%= link_to "Controle de Gastos", root_path, class: "navbar-brand" %>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><%= link_to "Despesas", despesas_path, class: "nav-link" %></li>
+        <li class="nav-item"><%= link_to "Dashboard mensal", dashboard_mensal_path, class: "nav-link" %></li>
+        <li class="nav-item"><%= link_to "Comparativo", dashboard_comparativo_path, class: "nav-link" %></li>
+      </ul>
+    </div>
+  </div>
+</nav>

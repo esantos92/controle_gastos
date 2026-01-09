@@ -1,0 +1,38 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <h2 class="h5 mb-1">Despesas de <%= mes.strftime("%m/%Y") %></h2>
+    <p class="text-muted mb-0">Total: <strong><%= formatar_moeda(total_mensal) %></strong></p>
+  </div>
+</div>
+
+<% if despesas.any? %>
+  <div class="table-responsive">
+    <table class="table table-striped align-middle">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Categoria</th>
+          <th>Descricao</th>
+          <th class="text-end">Valor</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% despesas.each do |despesa| %>
+          <tr>
+            <td><%= formatar_data(despesa.data) %></td>
+            <td><%= despesa.categoria %></td>
+            <td><%= despesa.descricao.presence || "-" %></td>
+            <td class="text-end"><%= formatar_moeda(despesa.valor) %></td>
+            <td class="text-end">
+              <%= link_to "Editar", edit_despesa_path(despesa, mes: mes.strftime("%Y-%m")), class: "btn btn-sm btn-outline-primary" %>
+              <%= link_to "Excluir", despesa_path(despesa, mes: mes.strftime("%Y-%m")), data: { turbo_method: :delete, turbo_confirm: "Remover esta despesa?" }, class: "btn btn-sm btn-outline-danger" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <%= render "shared/empty_state", mensagem: "Nenhuma despesa encontrada para este mes." %>
+<% end %>

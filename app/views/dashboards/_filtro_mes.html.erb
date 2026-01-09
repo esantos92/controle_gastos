@@ -1,0 +1,4 @@
+<%= form_with url: dashboard_mensal_path, method: :get, data: { turbo_frame: "dashboard_mensal" }, class: "d-flex gap-2" do |form| %>
+  <%= form.month_field :mes, value: @mes.strftime("%Y-%m"), class: "form-control" %>
+  <%= form.submit "Aplicar", class: "btn btn-outline-primary" %>
+<% end %>

@@ -1,0 +1,38 @@
+<h1 class="mb-4">Despesas</h1>
+
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="h6">Nova despesa</h2>
+        <turbo-frame id="despesa_form">
+          <%= render "form", despesa: @despesa, mes: @mes %>
+        </turbo-frame>
+      </div>
+    </div>
+
+    <div class="card mt-4">
+      <div class="card-body">
+        <h2 class="h6">Importar CSV</h2>
+        <%= form_with url: importar_despesas_path, method: :post, multipart: true, class: "vstack gap-2" do |form| %>
+          <%= form.file_field :arquivo, accept: ".csv", class: "form-control" %>
+          <%= form.submit "Importar", class: "btn btn-outline-secondary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-8">
+    <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center mb-3">
+      <%= form_with url: despesas_path, method: :get, data: { turbo_frame: "despesas_list" }, class: "d-flex gap-2" do |form| %>
+        <%= form.month_field :mes, value: @mes.strftime("%Y-%m"), class: "form-control" %>
+        <%= form.submit "Filtrar", class: "btn btn-outline-primary" %>
+      <% end %>
+      <%= link_to "Exportar CSV", exportar_despesas_path, class: "btn btn-outline-success" %>
+    </div>
+
+    <turbo-frame id="despesas_list">
+      <%= render "lista", despesas: @despesas, total_mensal: @total_mensal, mes: @mes %>
+    </turbo-frame>
+  </div>
+</div>

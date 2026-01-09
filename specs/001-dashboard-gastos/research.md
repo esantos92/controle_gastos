@@ -1,8 +1,8 @@
 # Pesquisa: Controle de gastos com dashboards visuais
 
-## Decisao 1: Ruby on Rails 7.1 com Hotwire para paginas reativas
+## Decisao 1: Ruby on Rails 8.0 com Hotwire para paginas reativas
 
-- **Decisao**: Usar Ruby on Rails 7.1 com Hotwire (Turbo + Stimulus) para
+- **Decisao**: Usar Ruby on Rails 8.0 com Hotwire (Turbo + Stimulus) para
   reatividade de paginas e atualizacao de estados.
 - **Racional**: Hotwire entrega reatividade sem SPA completa, reduz dependencias
   e mantem o fluxo simples para um projeto-laboratorio.

@@ -7,15 +7,16 @@
 
 Implementar um aplicativo web de controle de gastos pessoais com cadastro de
 Despesas e dashboards visuais (totais mensais, distribuicao por categoria,
-comparativo de meses e recorrencias). A solucao usara Ruby on Rails com
+comparativo de meses e recorrencias), incluindo importacao e exportacao CSV.
+A solucao usara Ruby on Rails com
 persistencia em PostgreSQL, interface com Bootstrap e reatividade baseada em
 Hotwire (Turbo + Stimulus) para atualizar a experiencia conforme mudancas de
 estado.
 
 ## Contexto Tecnico
 
-**Linguagem/Versao**: Ruby 3.3 + Rails 7.1
-**Dependencias Principais**: Rails, PostgreSQL, Bootstrap, Hotwire (Turbo + Stimulus), Chart.js
+**Linguagem/Versao**: Ruby 3.3 + Rails 8.0
+**Dependencias Principais**: Rails, PostgreSQL, Bootstrap (CDN), Hotwire (Turbo + Stimulus), Chart.js (importmap)
 **Armazenamento**: PostgreSQL 16
 **Testes (opcional)**: N/A - validacao manual
 **Plataforma Alvo**: Aplicacao web (desktop e mobile)

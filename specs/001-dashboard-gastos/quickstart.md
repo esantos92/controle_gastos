@@ -3,7 +3,7 @@
 ## Pre-requisitos
 
 - Ruby 3.3
-- Rails 7.1
+- Rails 8.0
 - PostgreSQL 16
 
 ## Configuracao rapida
@@ -39,3 +39,4 @@ http://localhost:3000
 - Registrar despesas com data, valor e categoria.
 - Visualizar o dashboard mensal com totais e distribuicao por categoria.
 - Comparar meses para identificar recorrencias.
+- Importar e exportar despesas via CSV.

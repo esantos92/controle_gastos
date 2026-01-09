@@ -1,0 +1,37 @@
+<h1 class="mb-4">Comparativo de meses</h1>
+
+<turbo-frame id="dashboard_comparativo">
+  <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center mb-3">
+    <%= render "filtro_periodo" %>
+    <span class="badge text-bg-secondary"><%= @inicio.strftime("%m/%Y") %> - <%= @fim.strftime("%m/%Y") %></span>
+  </div>
+
+  <% if @totais_meses.any? %>
+    <div class="card mb-4">
+      <div class="card-body">
+        <canvas
+          data-controller="chart"
+          data-chart-type-value="bar"
+          data-chart-data-value='{ "labels": <%= raw(@labels_meses.map { |mes| mes.strftime("%m/%Y") }.to_json) %>, "datasets": [{ "label": "Total por mes", "data": <%= raw(@totais_meses.to_json) %>, "backgroundColor": "#0d6efd" }] }'
+          data-chart-options-value='{ "scales": { "y": { "beginAtZero": true } } }'>
+        </canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <h2 class="h6">Categorias mais recorrentes</h2>
+        <ul class="list-group">
+          <% @recorrencias.first(5).each do |categoria, total| %>
+            <li class="list-group-item d-flex justify-content-between">
+              <span><%= categoria %></span>
+              <span class="badge text-bg-primary"><%= total %></span>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% else %>
+    <%= render "shared/empty_state", mensagem: "Sem dados para o periodo selecionado." %>
+  <% end %>
+</turbo-frame>

@@ -1,0 +1,5 @@
+<%= form_with url: dashboard_comparativo_path, method: :get, data: { turbo_frame: "dashboard_comparativo" }, class: "d-flex gap-2" do |form| %>
+  <%= form.month_field :inicio, value: @inicio.strftime("%Y-%m"), class: "form-control" %>
+  <%= form.month_field :fim, value: @fim.strftime("%Y-%m"), class: "form-control" %>
+  <%= form.submit "Aplicar", class: "btn btn-outline-primary" %>
+<% end %>

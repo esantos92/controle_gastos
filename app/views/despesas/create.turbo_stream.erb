@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "despesas_list", partial: "despesas/lista", locals: { despesas: @despesas, total_mensal: @total_mensal, mes: @mes } %>
+<%= turbo_stream.replace "despesa_form", partial: "despesas/form", locals: { despesa: Despesa.new(data: Date.current), mes: @mes } %>
+<%= turbo_stream.replace "flash_messages", partial: "shared/flash" %>

@@ -1,0 +1,31 @@
+<%= form_with model: despesa, class: "vstack gap-3" do |form| %>
+  <% if local_assigns[:mes].present? %>
+    <%= hidden_field_tag :mes, mes.strftime("%Y-%m") %>
+  <% end %>
+  <div>
+    <%= form.label :valor, "Valor", class: "form-label" %>
+    <%= form.number_field :valor, step: 0.01, min: 0.01, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :data, "Data", class: "form-label" %>
+    <%= form.date_field :data, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :categoria, "Categoria", class: "form-label" %>
+    <%= form.text_field :categoria, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :descricao, "Descricao", class: "form-label" %>
+    <%= form.text_field :descricao, class: "form-control" %>
+  </div>
+
+  <div class="d-flex gap-2">
+    <%= form.submit "Salvar", class: "btn btn-primary" %>
+    <% if despesa.persisted? %>
+      <%= link_to "Cancelar", despesas_path, class: "btn btn-outline-secondary" %>
+    <% end %>
+  </div>
+<% end %>

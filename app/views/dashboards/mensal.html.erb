@@ -1,0 +1,22 @@
+<h1 class="mb-4">Dashboard mensal</h1>
+
+<turbo-frame id="dashboard_mensal">
+  <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center mb-3">
+    <%= render "filtro_mes" %>
+    <span class="badge text-bg-primary">Total: <%= formatar_moeda(@total_mensal) %></span>
+  </div>
+
+  <% if @por_categoria.any? %>
+    <div class="card">
+      <div class="card-body">
+        <canvas
+          data-controller="chart"
+          data-chart-type-value="doughnut"
+          data-chart-data-value='{ "labels": <%= raw(@labels_categoria.to_json) %>, "datasets": [{ "data": <%= raw(@totais_categoria.to_json) %>, "backgroundColor": ["#0d6efd", "#20c997", "#ffc107", "#dc3545", "#6f42c1"] }] }'>
+        </canvas>
+      </div>
+    </div>
+  <% else %>
+    <%= render "shared/empty_state", mensagem: "Sem despesas registradas para este mes." %>
+  <% end %>
+</turbo-frame>

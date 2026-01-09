@@ -27,11 +27,11 @@ description: "Modelo de lista de tarefas para implementacao de funcionalidade"
 
 **Proposito**: Inicializacao do projeto e estrutura basica
 
-- [ ] T001 Inicializar aplicacao Rails na raiz do repositorio e gerar `Gemfile`
-- [ ] T002 Configurar PostgreSQL em `config/database.yml`
-- [ ] T003 [P] Registrar gems base (pg, bootstrap, hotwire-rails, chartkick ou chart.js) em `Gemfile`
-- [ ] T004 [P] Configurar importacoes JS e CSS base em `app/javascript/application.js` e `app/assets/stylesheets/application.bootstrap.scss`
-- [ ] T005 Criar configuracao inicial de rotas em `config/routes.rb`
+- [x] T001 Inicializar aplicacao Rails na raiz do repositorio e gerar `Gemfile`
+- [x] T002 Configurar PostgreSQL em `config/database.yml`
+- [x] T003 [P] Registrar dependencias base (pg, hotwire-rails) em `Gemfile` e pin do Chart.js em `config/importmap.rb`
+- [x] T004 [P] Configurar importacoes JS e CSS base em `app/javascript/application.js` e `app/assets/stylesheets/application.css`
+- [x] T005 Criar configuracao inicial de rotas em `config/routes.rb`
 
 ---
 
@@ -41,10 +41,10 @@ description: "Modelo de lista de tarefas para implementacao de funcionalidade"
 
 **CRITICO**: Nenhuma historia pode iniciar ate esta fase estar concluida
 
-- [ ] T006 Criar layout base com navegacao em `app/views/layouts/application.html.erb`
-- [ ] T007 [P] Configurar componentes visuais base em `app/views/shared/_navbar.html.erb`
-- [ ] T008 [P] Adicionar helpers de formatacao de moeda/data em `app/helpers/application_helper.rb`
-- [ ] T009 Preparar assets para graficos em `app/javascript/controllers/chart_controller.js`
+- [x] T006 Criar layout base com navegacao em `app/views/layouts/application.html.erb`
+- [x] T007 [P] Configurar componentes visuais base em `app/views/shared/_navbar.html.erb`
+- [x] T008 [P] Adicionar helpers de formatacao de moeda/data em `app/helpers/application_helper.rb`
+- [x] T009 Preparar assets para graficos em `app/javascript/controllers/chart_controller.js`
 
 **Checkpoint**: Fundacao pronta - historias podem iniciar em paralelo
 
@@ -58,14 +58,16 @@ description: "Modelo de lista de tarefas para implementacao de funcionalidade"
 
 ### Implementacao da Historia de Usuario 1
 
-- [ ] T010 [US1] Criar migracao de despesas em `db/migrate/202601090001_create_despesas.rb`
-- [ ] T011 [US1] Implementar modelo e validacoes em `app/models/despesa.rb`
-- [ ] T012 [US1] Implementar controller CRUD em `app/controllers/despesas_controller.rb`
-- [ ] T013 [US1] Criar partial de formulario em `app/views/despesas/_form.html.erb`
-- [ ] T014 [US1] Criar listagem e total mensal em `app/views/despesas/index.html.erb`
-- [ ] T015 [P] [US1] Criar telas de novo/edicao em `app/views/despesas/new.html.erb` e `app/views/despesas/edit.html.erb`
-- [ ] T016 [US1] Ajustar rotas de despesas em `config/routes.rb`
-- [ ] T017 [US1] Adicionar atualizacao reativa da lista via Turbo em `app/views/despesas/index.turbo_stream.erb`
+- [x] T010 [US1] Criar migracao de despesas em `db/migrate/202601090001_create_despesas.rb`
+- [x] T011 [US1] Implementar modelo e validacoes em `app/models/despesa.rb`
+- [x] T012 [US1] Implementar controller CRUD em `app/controllers/despesas_controller.rb`
+- [x] T013 [US1] Criar partial de formulario em `app/views/despesas/_form.html.erb`
+- [x] T014 [US1] Criar listagem e total mensal em `app/views/despesas/index.html.erb`
+- [x] T015 [P] [US1] Criar telas de novo/edicao em `app/views/despesas/new.html.erb` e `app/views/despesas/edit.html.erb`
+- [x] T016 [US1] Ajustar rotas de despesas em `config/routes.rb`
+- [x] T017 [US1] Adicionar atualizacao reativa da lista via Turbo em `app/views/despesas/create.turbo_stream.erb`
+- [x] T018 [US1] Adicionar exportacao CSV no controller e rota em `app/controllers/despesas_controller.rb` e `config/routes.rb`
+- [x] T019 [US1] Adicionar importacao CSV e formulario em `app/controllers/despesas_controller.rb` e `app/views/despesas/index.html.erb`
 
 **Checkpoint**: Aqui, a Historia de Usuario 1 deve estar funcional e validavel de forma independente
 
@@ -79,12 +81,12 @@ description: "Modelo de lista de tarefas para implementacao de funcionalidade"
 
 ### Implementacao da Historia de Usuario 2
 
-- [ ] T018 [US2] Criar controller de dashboard mensal em `app/controllers/dashboards_controller.rb`
-- [ ] T019 [US2] Implementar consulta agregada por categoria em `app/models/despesa.rb`
-- [ ] T020 [US2] Criar view do dashboard mensal em `app/views/dashboards/mensal.html.erb`
-- [ ] T021 [US2] Integrar grafico mensal com Chart.js em `app/javascript/controllers/chart_controller.js`
-- [ ] T022 [US2] Adicionar filtro de mes e atualizacao com Turbo em `app/views/dashboards/_filtro_mes.html.erb`
-- [ ] T023 [US2] Ajustar rotas do dashboard mensal em `config/routes.rb`
+- [x] T020 [US2] Criar controller de dashboard mensal em `app/controllers/dashboards_controller.rb`
+- [x] T021 [US2] Implementar consulta agregada por categoria em `app/models/despesa.rb`
+- [x] T022 [US2] Criar view do dashboard mensal em `app/views/dashboards/mensal.html.erb`
+- [x] T023 [US2] Integrar grafico mensal com Chart.js em `app/javascript/controllers/chart_controller.js`
+- [x] T024 [US2] Adicionar filtro de mes e atualizacao com Turbo em `app/views/dashboards/_filtro_mes.html.erb`
+- [x] T025 [US2] Ajustar rotas do dashboard mensal em `config/routes.rb`
 
 **Checkpoint**: Aqui, as Historias de Usuario 1 e 2 devem funcionar de forma independente
 
@@ -98,12 +100,12 @@ description: "Modelo de lista de tarefas para implementacao de funcionalidade"
 
 ### Implementacao da Historia de Usuario 3
 
-- [ ] T024 [US3] Implementar consulta comparativa por mes em `app/models/despesa.rb`
-- [ ] T025 [US3] Implementar consulta de recorrencias por categoria em `app/models/despesa.rb`
-- [ ] T026 [US3] Criar view de comparativo em `app/views/dashboards/comparativo.html.erb`
-- [ ] T027 [US3] Adicionar grafico comparativo em `app/javascript/controllers/chart_controller.js`
-- [ ] T028 [US3] Adicionar selecao de periodo em `app/views/dashboards/_filtro_periodo.html.erb`
-- [ ] T029 [US3] Ajustar rotas do comparativo em `config/routes.rb`
+- [x] T026 [US3] Implementar consulta comparativa por mes em `app/models/despesa.rb`
+- [x] T027 [US3] Implementar consulta de recorrencias por categoria em `app/models/despesa.rb`
+- [x] T028 [US3] Criar view de comparativo em `app/views/dashboards/comparativo.html.erb`
+- [x] T029 [US3] Adicionar grafico comparativo em `app/javascript/controllers/chart_controller.js`
+- [x] T030 [US3] Adicionar selecao de periodo em `app/views/dashboards/_filtro_periodo.html.erb`
+- [x] T031 [US3] Ajustar rotas do comparativo em `config/routes.rb`
 
 **Checkpoint**: Todas as historias devem estar funcionais de forma independente
 
@@ -113,11 +115,11 @@ description: "Modelo de lista de tarefas para implementacao de funcionalidade"
 
 **Proposito**: Melhorias que afetam varias historias
 
-- [ ] T030 [P] Ajustar responsividade e estilos gerais em `app/assets/stylesheets/application.bootstrap.scss`
-- [ ] T031 [P] Adicionar estados vazios padronizados em `app/views/shared/_empty_state.html.erb`
-- [ ] T032 Atualizar textos de ajuda e mensagens em `app/views/shared/_flash.html.erb`
-- [ ] T033 Revisar consistencia de moeda e datas em `app/helpers/application_helper.rb`
-- [ ] T034 Validar quickstart e atualizar se necessario em `specs/001-dashboard-gastos/quickstart.md`
+- [x] T032 [P] Ajustar responsividade e estilos gerais em `app/assets/stylesheets/application.css`
+- [x] T033 [P] Adicionar estados vazios padronizados em `app/views/shared/_empty_state.html.erb`
+- [x] T034 Atualizar textos de ajuda e mensagens em `app/views/shared/_flash.html.erb`
+- [x] T035 Revisar consistencia de moeda e datas em `app/helpers/application_helper.rb`
+- [x] T036 Validar quickstart e atualizar se necessario em `specs/001-dashboard-gastos/quickstart.md`
 
 ---
 
@@ -159,9 +161,9 @@ description: "Modelo de lista de tarefas para implementacao de funcionalidade"
 - T003 e T004 podem rodar em paralelo na Preparacao
 - T006, T007, T008 e T009 podem rodar em paralelo na Fundacao
 - T013 e T015 podem rodar em paralelo na HU1
-- T020 e T022 podem rodar em paralelo na HU2
-- T026 e T028 podem rodar em paralelo na HU3
-- T030, T031 e T032 podem rodar em paralelo nos Refinos
+- T022 e T024 podem rodar em paralelo na HU2
+- T028 e T030 podem rodar em paralelo na HU3
+- T032, T033 e T034 podem rodar em paralelo nos Refinos
 
 ---
 

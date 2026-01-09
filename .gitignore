@@ -1,0 +1,23 @@
+# Ruby / Rails
+.bundle/
+log/
+tmp/
+*.gem
+vendor/bundle/
+
+# Node (for frontend tooling)
+node_modules/
+
+# Env
+.env*
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+.vscode/
+.idea/
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key
