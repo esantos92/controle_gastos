@@ -1,50 +1,70 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Relatorio de Impacto de Sincronizacao
+- Alteracao de versao: 1.0.0 -> 1.1.0
+- Principios modificados: N/D
+- Principios adicionados: Projeto laboratorio: testes opcionais e dependencias enxutas
+- Secoes adicionadas: Regras de laboratorio e dependencias
+- Secoes removidas: N/D
+- Modelos que exigiram atualizacao:
+  - ✅ .specify/templates/plan-template.md
+  - ✅ .specify/templates/spec-template.md
+  - ✅ .specify/templates/tasks-template.md
+- TODOs de acompanhamento:
+  - TODO(RATIFICATION_DATE): data de ratificacao original nao informada
+-->
+# Constituicao do Controle de Gastos
 
-## Core Principles
+## Principios Centrais
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### Idioma padrao e exclusivo (prioridade maxima)
+Todo conteudo fora de blocos de codigo DEVE ser escrito em Portugues do Brasil
+(pt-BR). Esta regra tem prioridade maxima e se aplica a planos, tarefas,
+especificacoes, prompts de CLI, exemplos, comentarios, titulos, arquivos
+gerados, nomes de secoes e qualquer texto. E proibido misturar idiomas; use
+termos em ingles apenas quando for codigo, nome proprio, ou termo tecnico sem
+traducao comum (neste caso, usar traducao + termo original entre parenteses na
+primeira ocorrencia). Racional: garantir consistencia, clareza e comunicacao
+inequivoca no projeto.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### Projeto laboratorio: testes opcionais e dependencias enxutas
+Este projeto e um laboratorio de estudos e praticas. Nao ha necessidade de
+criar testes unitarios, de integracao, e2e ou similares; a validacao pode ser
+manual quando suficiente. Evitar excesso de dependencias: adicionar bibliotecas
+apenas quando forem essenciais e justificar a escolha. Racional: manter o foco
+no aprendizado, na simplicidade e na manutencao leve.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+## Regras de idioma e comunicacao
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+- Todo texto fora de blocos de codigo DEVE estar em pt-BR, sem mistura de idiomas.
+- Termos tecnicos sem traducao comum DEVEM vir com traducao + termo original na
+  primeira ocorrencia.
+- Nao usar termos em ingles para titulos, nomes de secoes, exemplos ou comentarios.
+- Excecoes permitidas: codigo, nomes proprios, bibliotecas, ferramentas e servicos.
+- Revisar a conformidade com estas regras antes de finalizar qualquer entrega.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+## Regras de laboratorio e dependencias
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+- Testes automatizados nao sao obrigatorios neste projeto-laboratorio.
+- Validacoes manuais sao aceitaveis quando cobrem o comportamento principal.
+- Novas dependencias DEVEM ser minimas e justificadas no contexto.
+- Evitar frameworks ou bibliotecas redundantes quando houver alternativa mais simples.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+## Fluxo de trabalho e revisao de conformidade
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+- Todo artefato novo ou atualizado DEVE passar por revisao de idioma antes de ser
+  considerado concluido.
+- Ajustes de idioma em templates e prompts DEVEM ser propagados para evitar
+  inconsistencias futuras.
+- Se houver necessidade de excecao, documentar a justificativa no artefato
+  afetado e registrar na governanca.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+## Governanca
 
-## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
+- A Constituicao prevalece sobre praticas locais e templates.
+- Alteracoes exigem documentacao, justificativa e atualizacao dos templates
+  dependentes.
+- Versionamento semantico: MAJOR para mudancas incompativeis, MINOR para novas
+  regras ou expansoes materiais, PATCH para ajustes de texto sem impacto.
+- Toda revisao deve verificar conformidade com os principios e regras de idioma.
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
-
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Versao**: 1.1.0 | **Ratificada**: TODO(RATIFICATION_DATE): data de ratificacao original nao informada | **Ultima Alteracao**: 2026-01-09

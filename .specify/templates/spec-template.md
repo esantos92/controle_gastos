@@ -1,115 +1,116 @@
-# Feature Specification: [FEATURE NAME]
+# Especificacao da Funcionalidade: [NOME DA FUNCIONALIDADE]
 
-**Feature Branch**: `[###-feature-name]`  
-**Created**: [DATE]  
-**Status**: Draft  
-**Input**: User description: "$ARGUMENTS"
+**Branch da Funcionalidade**: `[###-feature-name]`
+**Criado**: [DATA]
+**Status**: Rascunho
+**Entrada**: Descricao do usuario: "$ARGUMENTS"
 
-## User Scenarios & Testing *(mandatory)*
+## Cenarios de Usuario e Validacao *(obrigatorio)*
 
 <!--
-  IMPORTANT: User stories should be PRIORITIZED as user journeys ordered by importance.
-  Each user story/journey must be INDEPENDENTLY TESTABLE - meaning if you implement just ONE of them,
-  you should still have a viable MVP (Minimum Viable Product) that delivers value.
-  
-  Assign priorities (P1, P2, P3, etc.) to each story, where P1 is the most critical.
-  Think of each story as a standalone slice of functionality that can be:
-  - Developed independently
-  - Tested independently
-  - Deployed independently
-  - Demonstrated to users independently
+  IMPORTANTE: As historias de usuario devem ser PRIORIZADAS como jornadas
+  ordenadas por importancia. Cada historia/jornada deve ser VALIDAVEL DE FORMA
+  INDEPENDENTE - ou seja, se voce implementar apenas UMA delas, ainda deve ter
+  um produto minimo viavel (MVP) que entregue valor.
+
+  Atribua prioridades (P1, P2, P3 etc.) a cada historia, onde P1 e a mais critica.
+  Pense em cada historia como um recorte de funcionalidade que pode ser:
+  - Desenvolvida de forma independente
+  - Validada de forma independente (manual ou automatizada)
+  - Implantada de forma independente
+  - Demonstrada aos usuarios de forma independente
 -->
 
-### User Story 1 - [Brief Title] (Priority: P1)
+### Historia de Usuario 1 - [Titulo Breve] (Prioridade: P1)
 
-[Describe this user journey in plain language]
+[Descreva esta jornada do usuario em linguagem simples]
 
-**Why this priority**: [Explain the value and why it has this priority level]
+**Por que esta prioridade**: [Explique o valor e por que tem esse nivel]
 
-**Independent Test**: [Describe how this can be tested independently - e.g., "Can be fully tested by [specific action] and delivers [specific value]"]
+**Validacao Independente**: [Descreva como validar de forma independente - ex.: "Pode ser validado por [acao especifica] e entrega [valor especifico]"]
 
-**Acceptance Scenarios**:
+**Cenarios de Aceite**:
 
-1. **Given** [initial state], **When** [action], **Then** [expected outcome]
-2. **Given** [initial state], **When** [action], **Then** [expected outcome]
+1. **Dado** [estado inicial], **Quando** [acao], **Entao** [resultado esperado]
+2. **Dado** [estado inicial], **Quando** [acao], **Entao** [resultado esperado]
 
 ---
 
-### User Story 2 - [Brief Title] (Priority: P2)
+### Historia de Usuario 2 - [Titulo Breve] (Prioridade: P2)
 
-[Describe this user journey in plain language]
+[Descreva esta jornada do usuario em linguagem simples]
 
-**Why this priority**: [Explain the value and why it has this priority level]
+**Por que esta prioridade**: [Explique o valor e por que tem esse nivel]
 
-**Independent Test**: [Describe how this can be tested independently]
+**Validacao Independente**: [Descreva como validar de forma independente]
 
-**Acceptance Scenarios**:
+**Cenarios de Aceite**:
 
-1. **Given** [initial state], **When** [action], **Then** [expected outcome]
-
----
-
-### User Story 3 - [Brief Title] (Priority: P3)
-
-[Describe this user journey in plain language]
-
-**Why this priority**: [Explain the value and why it has this priority level]
-
-**Independent Test**: [Describe how this can be tested independently]
-
-**Acceptance Scenarios**:
-
-1. **Given** [initial state], **When** [action], **Then** [expected outcome]
+1. **Dado** [estado inicial], **Quando** [acao], **Entao** [resultado esperado]
 
 ---
 
-[Add more user stories as needed, each with an assigned priority]
+### Historia de Usuario 3 - [Titulo Breve] (Prioridade: P3)
 
-### Edge Cases
+[Descreva esta jornada do usuario em linguagem simples]
 
-<!--
-  ACTION REQUIRED: The content in this section represents placeholders.
-  Fill them out with the right edge cases.
--->
+**Por que esta prioridade**: [Explique o valor e por que tem esse nivel]
 
-- What happens when [boundary condition]?
-- How does system handle [error scenario]?
+**Validacao Independente**: [Descreva como validar de forma independente]
 
-## Requirements *(mandatory)*
+**Cenarios de Aceite**:
 
-<!--
-  ACTION REQUIRED: The content in this section represents placeholders.
-  Fill them out with the right functional requirements.
--->
+1. **Dado** [estado inicial], **Quando** [acao], **Entao** [resultado esperado]
 
-### Functional Requirements
+---
 
-- **FR-001**: System MUST [specific capability, e.g., "allow users to create accounts"]
-- **FR-002**: System MUST [specific capability, e.g., "validate email addresses"]  
-- **FR-003**: Users MUST be able to [key interaction, e.g., "reset their password"]
-- **FR-004**: System MUST [data requirement, e.g., "persist user preferences"]
-- **FR-005**: System MUST [behavior, e.g., "log all security events"]
+[Adicione mais historias de usuario conforme necessario, cada uma com prioridade]
 
-*Example of marking unclear requirements:*
-
-- **FR-006**: System MUST authenticate users via [NEEDS CLARIFICATION: auth method not specified - email/password, SSO, OAuth?]
-- **FR-007**: System MUST retain user data for [NEEDS CLARIFICATION: retention period not specified]
-
-### Key Entities *(include if feature involves data)*
-
-- **[Entity 1]**: [What it represents, key attributes without implementation]
-- **[Entity 2]**: [What it represents, relationships to other entities]
-
-## Success Criteria *(mandatory)*
+### Casos de Borda
 
 <!--
-  ACTION REQUIRED: Define measurable success criteria.
-  These must be technology-agnostic and measurable.
+  ACAO OBRIGATORIA: O conteudo desta secao e um placeholder.
+  Preencha com os casos de borda corretos.
 -->
 
-### Measurable Outcomes
+- O que acontece quando [condicao de contorno]?
+- Como o sistema lida com [cenario de erro]?
 
-- **SC-001**: [Measurable metric, e.g., "Users can complete account creation in under 2 minutes"]
-- **SC-002**: [Measurable metric, e.g., "System handles 1000 concurrent users without degradation"]
-- **SC-003**: [User satisfaction metric, e.g., "90% of users successfully complete primary task on first attempt"]
-- **SC-004**: [Business metric, e.g., "Reduce support tickets related to [X] by 50%"]
+## Requisitos *(obrigatorio)*
+
+<!--
+  ACAO OBRIGATORIA: O conteudo desta secao e um placeholder.
+  Preencha com os requisitos funcionais corretos.
+-->
+
+### Requisitos Funcionais
+
+- **RF-001**: O sistema DEVE [capacidade especifica, ex.: "permitir criar contas"]
+- **RF-002**: O sistema DEVE [capacidade especifica, ex.: "validar emails"]
+- **RF-003**: Os usuarios DEVEM conseguir [interacao chave, ex.: "redefinir senha"]
+- **RF-004**: O sistema DEVE [requisito de dados, ex.: "persistir preferencias"]
+- **RF-005**: O sistema DEVE [comportamento, ex.: "registrar eventos de seguranca"]
+
+*Exemplo de requisito com falta de clareza:*
+
+- **RF-006**: O sistema DEVE autenticar usuarios via [PRECISA DE CLAREZA: metodo nao especificado - email/senha, SSO, OAuth?]
+- **RF-007**: O sistema DEVE reter dados por [PRECISA DE CLAREZA: periodo nao especificado]
+
+### Entidades Principais *(inclua se a funcionalidade envolver dados)*
+
+- **[Entidade 1]**: [O que representa, atributos chave sem implementacao]
+- **[Entidade 2]**: [O que representa, relacoes com outras entidades]
+
+## Criterios de Sucesso *(obrigatorio)*
+
+<!--
+  ACAO OBRIGATORIA: Defina criterios mensuraveis.
+  Eles devem ser agnosticos de tecnologia e mensuraveis.
+-->
+
+### Resultados Mensuraveis
+
+- **CS-001**: [Metrica mensuravel, ex.: "Usuarios concluem cadastro em menos de 2 minutos"]
+- **CS-002**: [Metrica mensuravel, ex.: "Sistema lida com 1000 usuarios simultaneos sem degradacao"]
+- **CS-003**: [Metrica de satisfacao, ex.: "90% dos usuarios concluem tarefa principal na primeira tentativa"]
+- **CS-004**: [Metrica de negocio, ex.: "Reduzir tickets sobre [X] em 50%"]

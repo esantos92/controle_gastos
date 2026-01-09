@@ -1,137 +1,143 @@
 ---
-description: Generate an actionable, dependency-ordered tasks.md for the feature based on available design artifacts.
-handoffs: 
-  - label: Analyze For Consistency
+description: Gerar um tasks.md acionavel e ordenado por dependencias para a funcionalidade com base nos artefatos disponiveis.
+handoffs:
+  - label: Analisar Consistencia
     agent: speckit.analyze
-    prompt: Run a project analysis for consistency
+    prompt: Rodar analise de consistencia do projeto
     send: true
-  - label: Implement Project
+  - label: Implementar Projeto
     agent: speckit.implement
-    prompt: Start the implementation in phases
+    prompt: Iniciar implementacao em fases
     send: true
 ---
 
-## User Input
+## Entrada do Usuario
 
 ```text
 $ARGUMENTS
 ```
 
-You **MUST** consider the user input before proceeding (if not empty).
+Voce DEVE considerar a entrada do usuario antes de prosseguir (se nao estiver vazia).
 
-## Outline
+## Roteiro
 
-1. **Setup**: Run `.specify/scripts/bash/check-prerequisites.sh --json` from repo root and parse FEATURE_DIR and AVAILABLE_DOCS list. All paths must be absolute. For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
+1. **Preparacao**: Rodar `.specify/scripts/bash/check-prerequisites.sh --json` na raiz
+   do repositorio e interpretar FEATURE_DIR e AVAILABLE_DOCS. Todos os caminhos devem
+   ser absolutos. Para aspas simples em argumentos como "I'm Groot", use escape:
+   ex. 'I'\''m Groot' (ou aspas duplas se possivel: "I'm Groot").
 
-2. **Load design documents**: Read from FEATURE_DIR:
-   - **Required**: plan.md (tech stack, libraries, structure), spec.md (user stories with priorities)
-   - **Optional**: data-model.md (entities), contracts/ (API endpoints), research.md (decisions), quickstart.md (test scenarios)
-   - Note: Not all projects have all documents. Generate tasks based on what's available.
+2. **Carregar documentos de design**: Ler de FEATURE_DIR:
+   - **Obrigatorios**: plan.md (stack, bibliotecas, estrutura), spec.md (historias e prioridades)
+   - **Opcionais**: data-model.md (entidades), contracts/ (endpoints), research.md (decisoes), quickstart.md (cenarios de teste)
+   - Nota: Nem todo projeto tem todos os docs. Gere tarefas com base no que existir.
 
-3. **Execute task generation workflow**:
-   - Load plan.md and extract tech stack, libraries, project structure
-   - Load spec.md and extract user stories with their priorities (P1, P2, P3, etc.)
-   - If data-model.md exists: Extract entities and map to user stories
-   - If contracts/ exists: Map endpoints to user stories
-   - If research.md exists: Extract decisions for setup tasks
-   - Generate tasks organized by user story (see Task Generation Rules below)
-   - Generate dependency graph showing user story completion order
-   - Create parallel execution examples per user story
-   - Validate task completeness (each user story has all needed tasks, independently testable)
+3. **Executar fluxo de geracao de tarefas**:
+   - Carregar plan.md e extrair stack, bibliotecas, estrutura do projeto
+   - Carregar spec.md e extrair historias com prioridades (P1, P2, P3 etc.)
+   - Se data-model.md existir: extrair entidades e mapear para historias
+   - Se contracts/ existir: mapear endpoints para historias
+   - Se research.md existir: extrair decisoes para tarefas de setup
+   - Gerar tarefas organizadas por historia (ver Regras abaixo)
+   - Gerar grafo de dependencias com ordem de conclusao por historia
+   - Criar exemplos de execucao paralela por historia
+   - Validar completude (cada historia com tarefas necessarias e testaveis)
 
-4. **Generate tasks.md**: Use `.specify/templates/tasks-template.md` as structure, fill with:
-   - Correct feature name from plan.md
-   - Phase 1: Setup tasks (project initialization)
-   - Phase 2: Foundational tasks (blocking prerequisites for all user stories)
-   - Phase 3+: One phase per user story (in priority order from spec.md)
-   - Each phase includes: story goal, independent test criteria, tests (if requested), implementation tasks
-   - Final Phase: Polish & cross-cutting concerns
-   - All tasks must follow the strict checklist format (see Task Generation Rules below)
-   - Clear file paths for each task
-   - Dependencies section showing story completion order
-   - Parallel execution examples per story
-   - Implementation strategy section (MVP first, incremental delivery)
+4. **Gerar tasks.md**: Usar `.specify/templates/tasks-template.md` e preencher com:
+   - Nome correto da funcionalidade do plan.md
+   - Fase 1: tarefas de preparacao (inicializacao)
+   - Fase 2: tarefas de fundacao (bloqueantes)
+   - Fase 3+: uma fase por historia (ordem de prioridade)
+   - Cada fase inclui: objetivo, criterio de teste independente, testes (se solicitados), implementacao
+   - Fase final: refinamento e preocupacoes transversais
+   - Todas as tarefas devem seguir o formato estrito (ver Regras abaixo)
+   - Caminhos de arquivo claros em cada tarefa
+   - Secao de dependencias com ordem de conclusao
+   - Exemplos de execucao paralela por historia
+   - Estrategia de implementacao (MVP primeiro, entrega incremental)
 
-5. **Report**: Output path to generated tasks.md and summary:
-   - Total task count
-   - Task count per user story
-   - Parallel opportunities identified
-   - Independent test criteria for each story
-   - Suggested MVP scope (typically just User Story 1)
-   - Format validation: Confirm ALL tasks follow the checklist format (checkbox, ID, labels, file paths)
+5. **Reportar**: Informar caminho do tasks.md e resumo:
+   - Total de tarefas
+   - Total por historia
+   - Oportunidades de paralelo
+   - Criterios de teste independente por historia
+   - Escopo MVP sugerido (tipicamente Historia de Usuario 1)
+   - Validacao de formato: confirmar que TODAS as tarefas seguem o checklist
 
-Context for task generation: $ARGUMENTS
+Contexto para geracao: $ARGUMENTS
 
-The tasks.md should be immediately executable - each task must be specific enough that an LLM can complete it without additional context.
+O tasks.md deve ser imediatamente executavel - cada tarefa deve ser especifica o
+suficiente para que um LLM conclua sem contexto adicional.
 
-## Task Generation Rules
+## Regras de Geracao de Tarefas
 
-**CRITICAL**: Tasks MUST be organized by user story to enable independent implementation and testing.
+**CRITICO**: Tarefas DEVEM ser organizadas por historia de usuario para permitir
+implementacao e testes independentes.
 
-**Tests are OPTIONAL**: Only generate test tasks if explicitly requested in the feature specification or if user requests TDD approach.
+**Testes sao OPCIONAIS**: So gerar tarefas de teste se solicitado na especificacao
+ou se o usuario pedir abordagem TDD.
 
-### Checklist Format (REQUIRED)
+### Formato de Checklist (OBRIGATORIO)
 
-Every task MUST strictly follow this format:
+Toda tarefa DEVE seguir estritamente este formato:
 
 ```text
-- [ ] [TaskID] [P?] [Story?] Description with file path
+- [ ] [IDTarefa] [P?] [Historia?] Descricao com caminho de arquivo
 ```
 
-**Format Components**:
+**Componentes do Formato**:
 
-1. **Checkbox**: ALWAYS start with `- [ ]` (markdown checkbox)
-2. **Task ID**: Sequential number (T001, T002, T003...) in execution order
-3. **[P] marker**: Include ONLY if task is parallelizable (different files, no dependencies on incomplete tasks)
-4. **[Story] label**: REQUIRED for user story phase tasks only
-   - Format: [US1], [US2], [US3], etc. (maps to user stories from spec.md)
-   - Setup phase: NO story label
-   - Foundational phase: NO story label  
-   - User Story phases: MUST have story label
-   - Polish phase: NO story label
-5. **Description**: Clear action with exact file path
+1. **Checkbox**: Sempre iniciar com `- [ ]`
+2. **ID da tarefa**: Numero sequencial (T001, T002, T003...) na ordem de execucao
+3. **Marcador [P]**: Incluir SOMENTE se a tarefa for paralelizavel (arquivos diferentes, sem dependencias)
+4. **Rotulo [Historia]**: OBRIGATORIO apenas nas fases de historias
+   - Formato: [HU1], [HU2], [HU3] etc. (mapeia historias do spec.md)
+   - Fase de Preparacao: sem rotulo
+   - Fase de Fundacao: sem rotulo
+   - Fases de Historia: DEVEM ter rotulo
+   - Fase de Refinos: sem rotulo
+5. **Descricao**: Acao clara com caminho de arquivo exato
 
-**Examples**:
+**Exemplos**:
 
-- ✅ CORRECT: `- [ ] T001 Create project structure per implementation plan`
-- ✅ CORRECT: `- [ ] T005 [P] Implement authentication middleware in src/middleware/auth.py`
-- ✅ CORRECT: `- [ ] T012 [P] [US1] Create User model in src/models/user.py`
-- ✅ CORRECT: `- [ ] T014 [US1] Implement UserService in src/services/user_service.py`
-- ❌ WRONG: `- [ ] Create User model` (missing ID and Story label)
-- ❌ WRONG: `T001 [US1] Create model` (missing checkbox)
-- ❌ WRONG: `- [ ] [US1] Create User model` (missing Task ID)
-- ❌ WRONG: `- [ ] T001 [US1] Create model` (missing file path)
+- CORRETO: `- [ ] T001 Criar estrutura do projeto conforme o plano`
+- CORRETO: `- [ ] T005 [P] Implementar middleware de autenticacao em src/middleware/auth.py`
+- CORRETO: `- [ ] T012 [P] [HU1] Criar modelo Usuario em src/models/usuario.py`
+- CORRETO: `- [ ] T014 [HU1] Implementar ServicoUsuario em src/services/servico_usuario.py`
+- ERRADO: `- [ ] Criar modelo Usuario` (sem ID e rotulo de historia)
+- ERRADO: `T001 [HU1] Criar modelo` (sem checkbox)
+- ERRADO: `- [ ] [HU1] Criar modelo Usuario` (sem ID)
+- ERRADO: `- [ ] T001 [HU1] Criar modelo` (sem caminho de arquivo)
 
-### Task Organization
+### Organizacao das Tarefas
 
-1. **From User Stories (spec.md)** - PRIMARY ORGANIZATION:
-   - Each user story (P1, P2, P3...) gets its own phase
-   - Map all related components to their story:
-     - Models needed for that story
-     - Services needed for that story
-     - Endpoints/UI needed for that story
-     - If tests requested: Tests specific to that story
-   - Mark story dependencies (most stories should be independent)
+1. **A partir das Historias (spec.md)** - ORGANIZACAO PRINCIPAL:
+   - Cada historia (P1, P2, P3...) recebe sua propria fase
+   - Mapear componentes relacionados a historia:
+     - Modelos necessarios
+     - Servicos necessarios
+     - Endpoints/UI necessarios
+     - Se testes solicitados: testes especificos
+   - Marcar dependencias entre historias (a maioria deve ser independente)
 
-2. **From Contracts**:
-   - Map each contract/endpoint → to the user story it serves
-   - If tests requested: Each contract → contract test task [P] before implementation in that story's phase
+2. **A partir dos Contratos**:
+   - Mapear cada contrato/endpoint para a historia correspondente
+   - Se testes solicitados: cada contrato -> tarefa de teste de contrato [P] antes da implementacao
 
-3. **From Data Model**:
-   - Map each entity to the user story(ies) that need it
-   - If entity serves multiple stories: Put in earliest story or Setup phase
-   - Relationships → service layer tasks in appropriate story phase
+3. **A partir do Modelo de Dados**:
+   - Mapear cada entidade para as historias que a usam
+   - Se entidade servir varias historias: colocar na historia mais cedo ou na Preparacao
+   - Relacionamentos -> tarefas na camada de servico da historia apropriada
 
-4. **From Setup/Infrastructure**:
-   - Shared infrastructure → Setup phase (Phase 1)
-   - Foundational/blocking tasks → Foundational phase (Phase 2)
-   - Story-specific setup → within that story's phase
+4. **A partir de Preparacao/Infraestrutura**:
+   - Infra compartilhada -> Fase de Preparacao (Fase 1)
+   - Tarefas bloqueantes -> Fase de Fundacao (Fase 2)
+   - Setup especifico de historia -> dentro da fase da historia
 
-### Phase Structure
+### Estrutura de Fases
 
-- **Phase 1**: Setup (project initialization)
-- **Phase 2**: Foundational (blocking prerequisites - MUST complete before user stories)
-- **Phase 3+**: User Stories in priority order (P1, P2, P3...)
-  - Within each story: Tests (if requested) → Models → Services → Endpoints → Integration
-  - Each phase should be a complete, independently testable increment
-- **Final Phase**: Polish & Cross-Cutting Concerns
+- **Fase 1**: Preparacao (inicializacao)
+- **Fase 2**: Fundacao (bloqueante - DEVE concluir antes das historias)
+- **Fase 3+**: Historias em ordem de prioridade (P1, P2, P3...)
+  - Dentro de cada historia: Testes (se solicitados) -> Modelos -> Servicos -> Endpoints -> Integracao
+  - Cada fase deve ser incremento completo e testavel
+- **Fase Final**: Refinos e Preocupacoes Transversais

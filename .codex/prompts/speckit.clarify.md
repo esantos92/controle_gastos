@@ -1,181 +1,202 @@
 ---
-description: Identify underspecified areas in the current feature spec by asking up to 5 highly targeted clarification questions and encoding answers back into the spec.
-handoffs: 
-  - label: Build Technical Plan
+description: Identificar areas subespecificadas na especificacao atual fazendo ate 5 perguntas direcionadas e registrando respostas na spec.
+handoffs:
+  - label: Criar Plano Tecnico
     agent: speckit.plan
-    prompt: Create a plan for the spec. I am building with...
+    prompt: Crie um plano para a especificacao. Estou construindo com...
 ---
 
-## User Input
+## Entrada do Usuario
 
 ```text
 $ARGUMENTS
 ```
 
-You **MUST** consider the user input before proceeding (if not empty).
+Voce DEVE considerar a entrada do usuario antes de prosseguir (se nao estiver vazia).
 
-## Outline
+## Roteiro
 
-Goal: Detect and reduce ambiguity or missing decision points in the active feature specification and record the clarifications directly in the spec file.
+Objetivo: Detectar e reduzir ambiguidades ou pontos de decisao ausentes na
+especificacao ativa e registrar esclarecimentos diretamente no arquivo spec.
 
-Note: This clarification workflow is expected to run (and be completed) BEFORE invoking `/speckit.plan`. If the user explicitly states they are skipping clarification (e.g., exploratory spike), you may proceed, but must warn that downstream rework risk increases.
+Nota: Este fluxo de esclarecimento deve rodar (e ser concluido) ANTES de invocar
+`/speckit.plan`. Se o usuario disser explicitamente que vai pular esclarecimento
+(ex.: exploracao), voce pode prosseguir, mas DEVE alertar que o risco de retrabalho
+aumenta.
 
-Execution steps:
+Etapas de execucao:
 
-1. Run `.specify/scripts/bash/check-prerequisites.sh --json --paths-only` from repo root **once** (combined `--json --paths-only` mode / `-Json -PathsOnly`). Parse minimal JSON payload fields:
+1. Rodar `.specify/scripts/bash/check-prerequisites.sh --json --paths-only` na raiz
+   do repositorio **uma vez** (modo combinado `--json --paths-only` / `-Json -PathsOnly`).
+   Interpretar o JSON minimo:
    - `FEATURE_DIR`
    - `FEATURE_SPEC`
-   - (Optionally capture `IMPL_PLAN`, `TASKS` for future chained flows.)
-   - If JSON parsing fails, abort and instruct user to re-run `/speckit.specify` or verify feature branch environment.
-   - For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
+   - (Opcionalmente capturar `IMPL_PLAN`, `TASKS` para fluxos encadeados.)
+   - Se a leitura do JSON falhar, abortar e instruir o usuario a rodar
+     `/speckit.specify` ou verificar o ambiente da branch.
+   - Para aspas simples em argumentos como "I'm Groot", use escape: ex. 'I'\''m Groot'
+     (ou aspas duplas se possivel: "I'm Groot").
 
-2. Load the current spec file. Perform a structured ambiguity & coverage scan using this taxonomy. For each category, mark status: Clear / Partial / Missing. Produce an internal coverage map used for prioritization (do not output raw map unless no questions will be asked).
+2. Carregar o arquivo spec atual. Fazer varredura estruturada de ambiguidade e
+   cobertura com esta taxonomia. Para cada categoria, marcar: Claro / Parcial / Ausente.
+   Produzir mapa interno para priorizacao (nao exibir bruto, a menos que nao haja perguntas).
 
-   Functional Scope & Behavior:
-   - Core user goals & success criteria
-   - Explicit out-of-scope declarations
-   - User roles / personas differentiation
+   Escopo Funcional e Comportamento:
+   - Objetivos centrais do usuario e criterios de sucesso
+   - Declaracoes explicitas de fora do escopo
+   - Diferenciacao de papeis/personas
 
-   Domain & Data Model:
-   - Entities, attributes, relationships
-   - Identity & uniqueness rules
-   - Lifecycle/state transitions
-   - Data volume / scale assumptions
+   Dominio e Modelo de Dados:
+   - Entidades, atributos, relacionamentos
+   - Regras de identidade e unicidade
+   - Transicoes de ciclo de vida/estado
+   - Volume de dados/assuncoes de escala
 
-   Interaction & UX Flow:
-   - Critical user journeys / sequences
-   - Error/empty/loading states
-   - Accessibility or localization notes
+   Interacao e Fluxo de UX:
+   - Jornadas criticas / sequencias
+   - Estados de erro/vazio/carregamento
+   - Observacoes de acessibilidade ou localizacao
 
-   Non-Functional Quality Attributes:
-   - Performance (latency, throughput targets)
-   - Scalability (horizontal/vertical, limits)
-   - Reliability & availability (uptime, recovery expectations)
-   - Observability (logging, metrics, tracing signals)
-   - Security & privacy (authN/Z, data protection, threat assumptions)
-   - Compliance / regulatory constraints (if any)
+   Atributos de Qualidade Nao Funcionais:
+   - Desempenho (latencia, throughput)
+   - Escalabilidade (horizontal/vertical, limites)
+   - Confiabilidade e disponibilidade (uptime, recuperacao)
+   - Observabilidade (logs, metricas, rastreamento (tracing))
+   - Seguranca e privacidade (authN/Z, protecao de dados, ameacas)
+   - Conformidade/regulatorio (se houver)
 
-   Integration & External Dependencies:
-   - External services/APIs and failure modes
-   - Data import/export formats
-   - Protocol/versioning assumptions
+   Integracao e Dependencias Externas:
+   - Servicos/APIs externas e modos de falha
+   - Formatos de importacao/exportacao de dados
+   - Assuncoes de protocolo/versionamento
 
-   Edge Cases & Failure Handling:
-   - Negative scenarios
+   Casos de Borda e Tratamento de Falhas:
+   - Cenarios negativos
    - Rate limiting / throttling
-   - Conflict resolution (e.g., concurrent edits)
+   - Resolucao de conflitos (ex.: edicoes concorrentes)
 
-   Constraints & Tradeoffs:
-   - Technical constraints (language, storage, hosting)
-   - Explicit tradeoffs or rejected alternatives
+   Restricoes e Compensacoes:
+   - Restricoes tecnicas (linguagem, armazenamento, hospedagem)
+   - Compensacoes explicitos ou alternativas rejeitadas
 
-   Terminology & Consistency:
-   - Canonical glossary terms
-   - Avoided synonyms / deprecated terms
+   Terminologia e Consistencia:
+   - Termos canonicos de glossario
+   - Sinonimos evitados / termos obsoletos
 
-   Completion Signals:
-   - Acceptance criteria testability
-   - Measurable Definition of Done style indicators
+   Sinais de Conclusao:
+   - Criterios de aceite testaveis
+   - Indicadores mensuraveis de Definicao de Pronto (Definition of Done)
 
-   Misc / Placeholders:
-   - TODO markers / unresolved decisions
-   - Ambiguous adjectives ("robust", "intuitive") lacking quantification
+   Varios / Placeholders:
+   - Marcadores TODO / decisoes pendentes
+   - Adjetivos ambiguos ("robusto", "intuitivo") sem quantificacao
 
-   For each category with Partial or Missing status, add a candidate question opportunity unless:
-   - Clarification would not materially change implementation or validation strategy
-   - Information is better deferred to planning phase (note internally)
+   Para cada categoria Parcial ou Ausente, adicionar candidato de pergunta a menos que:
+   - O esclarecimento nao mude materialmente a implementacao ou validacao
+   - A informacao seja melhor adiada para a fase de planejamento (anotar internamente)
 
-3. Generate (internally) a prioritized queue of candidate clarification questions (maximum 5). Do NOT output them all at once. Apply these constraints:
-    - Maximum of 10 total questions across the whole session.
-    - Each question must be answerable with EITHER:
-       - A short multiple‑choice selection (2–5 distinct, mutually exclusive options), OR
-       - A one-word / short‑phrase answer (explicitly constrain: "Answer in <=5 words").
-    - Only include questions whose answers materially impact architecture, data modeling, task decomposition, test design, UX behavior, operational readiness, or compliance validation.
-    - Ensure category coverage balance: attempt to cover the highest impact unresolved categories first; avoid asking two low-impact questions when a single high-impact area (e.g., security posture) is unresolved.
-    - Exclude questions already answered, trivial stylistic preferences, or plan-level execution details (unless blocking correctness).
-    - Favor clarifications that reduce downstream rework risk or prevent misaligned acceptance tests.
-    - If more than 5 categories remain unresolved, select the top 5 by (Impact * Uncertainty) heuristic.
+3. Gerar (internamente) uma fila priorizada de perguntas (maximo 5). Nao exibir
+   todas de uma vez. Aplicar:
+    - Maximo de 10 perguntas na sessao inteira.
+    - Cada pergunta deve ter resposta em:
+       - Multipla escolha curta (2-5 opcoes exclusivas), OU
+       - Resposta curta (<=5 palavras).
+    - Apenas perguntas que impactem arquitetura, modelagem de dados, decomposicao de tarefas,
+      testes, UX, prontidao operacional ou conformidade.
+    - Balancear categorias: cobrir primeiro as mais impactantes; evitar duas perguntas de baixo impacto
+      quando uma area critica (ex.: postura de seguranca) estiver pendente.
+    - Excluir perguntas ja respondidas, preferencias triviais, ou detalhes de execucao de plano
+      (a menos que bloqueiem a corretude).
+    - Priorizar esclarecimentos que reduzam retrabalho ou previnam testes desalinhados.
+    - Se mais de 5 categorias estiverem pendentes, escolher as 5 com maior (Impacto * Incerteza).
 
-4. Sequential questioning loop (interactive):
-    - Present EXACTLY ONE question at a time.
-    - For multiple‑choice questions:
-       - **Analyze all options** and determine the **most suitable option** based on:
-          - Best practices for the project type
-          - Common patterns in similar implementations
-          - Risk reduction (security, performance, maintainability)
-          - Alignment with any explicit project goals or constraints visible in the spec
-       - Present your **recommended option prominently** at the top with clear reasoning (1-2 sentences explaining why this is the best choice).
-       - Format as: `**Recommended:** Option [X] - <reasoning>`
-       - Then render all options as a Markdown table:
+4. Loop de perguntas (interativo):
+    - Apresentar EXATAMENTE UMA pergunta por vez.
+    - Para perguntas de multipla escolha:
+       - **Analisar todas as opcoes** e determinar a **opcao mais adequada** com base em:
+          - Boas praticas para o tipo de projeto
+          - Padroes comuns em implementacoes similares
+          - Reducao de risco (seguranca, desempenho, manutencao)
+          - Alinhamento com objetivos/restricoes explicitos na spec
+       - Apresentar a **opcao recomendada** com justificativa (1-2 frases).
+       - Formato: `**Recomendado:** Opcao [X] - <justificativa>`
+       - Em seguida, renderizar tabela Markdown:
 
-       | Option | Description |
-       |--------|-------------|
-       | A | <Option A description> |
-       | B | <Option B description> |
-       | C | <Option C description> (add D/E as needed up to 5) |
-       | Short | Provide a different short answer (<=5 words) (Include only if free-form alternative is appropriate) |
+       | Opcao | Descricao |
+       |-------|-----------|
+       | A | <Descricao da Opcao A> |
+       | B | <Descricao da Opcao B> |
+       | C | <Descricao da Opcao C> (adicionar D/E ate 5) |
+       | Curta | Fornecer resposta curta diferente (<=5 palavras) (apenas se apropriado) |
 
-       - After the table, add: `You can reply with the option letter (e.g., "A"), accept the recommendation by saying "yes" or "recommended", or provide your own short answer.`
-    - For short‑answer style (no meaningful discrete options):
-       - Provide your **suggested answer** based on best practices and context.
-       - Format as: `**Suggested:** <your proposed answer> - <brief reasoning>`
-       - Then output: `Format: Short answer (<=5 words). You can accept the suggestion by saying "yes" or "suggested", or provide your own answer.`
-    - After the user answers:
-       - If the user replies with "yes", "recommended", or "suggested", use your previously stated recommendation/suggestion as the answer.
-       - Otherwise, validate the answer maps to one option or fits the <=5 word constraint.
-       - If ambiguous, ask for a quick disambiguation (count still belongs to same question; do not advance).
-       - Once satisfactory, record it in working memory (do not yet write to disk) and move to the next queued question.
-    - Stop asking further questions when:
-       - All critical ambiguities resolved early (remaining queued items become unnecessary), OR
-       - User signals completion ("done", "good", "no more"), OR
-       - You reach 5 asked questions.
-    - Never reveal future queued questions in advance.
-    - If no valid questions exist at start, immediately report no critical ambiguities.
+       - Depois da tabela, adicionar: `Voce pode responder com a letra (ex.: "A"),
+         aceitar a recomendacao dizendo "sim" ou "recomendado", ou enviar sua propria resposta curta.`
+    - Para perguntas de resposta curta (sem opcoes significativas):
+       - Fornecer **resposta sugerida** com base em boas praticas e contexto.
+       - Formato: `**Sugerido:** <resposta proposta> - <justificativa>`
+       - Depois: `Formato: Resposta curta (<=5 palavras). Voce pode aceitar dizendo
+         "sim" ou "sugerido", ou enviar sua resposta.`
+    - Depois da resposta do usuario:
+       - Se o usuario responder "sim", "recomendado" ou "sugerido", usar a recomendacao.
+       - Caso contrario, validar se mapeia a uma opcao ou respeita <=5 palavras.
+       - Se ambiguo, pedir desambiguacao rapida (mesma pergunta; nao avancar).
+       - Ao aceitar, registrar em memoria de trabalho (nao gravar ainda) e seguir.
+    - Parar quando:
+       - Ambiguidades criticas resolvidas cedo (resto fica desnecessario), OU
+       - Usuario sinaliza fim ("done", "ok", "sem mais"), OU
+       - Atingir 5 perguntas.
+    - Nunca revelar perguntas futuras.
+    - Se nao houver perguntas validas no inicio, reportar sem ambiguidades criticas.
 
-5. Integration after EACH accepted answer (incremental update approach):
-    - Maintain in-memory representation of the spec (loaded once at start) plus the raw file contents.
-    - For the first integrated answer in this session:
-       - Ensure a `## Clarifications` section exists (create it just after the highest-level contextual/overview section per the spec template if missing).
-       - Under it, create (if not present) a `### Session YYYY-MM-DD` subheading for today.
-    - Append a bullet line immediately after acceptance: `- Q: <question> → A: <final answer>`.
-    - Then immediately apply the clarification to the most appropriate section(s):
-       - Functional ambiguity → Update or add a bullet in Functional Requirements.
-       - User interaction / actor distinction → Update User Stories or Actors subsection (if present) with clarified role, constraint, or scenario.
-       - Data shape / entities → Update Data Model (add fields, types, relationships) preserving ordering; note added constraints succinctly.
-       - Non-functional constraint → Add/modify measurable criteria in Non-Functional / Quality Attributes section (convert vague adjective to metric or explicit target).
-       - Edge case / negative flow → Add a new bullet under Edge Cases / Error Handling (or create such subsection if template provides placeholder for it).
-       - Terminology conflict → Normalize term across spec; retain original only if necessary by adding `(formerly referred to as "X")` once.
-    - If the clarification invalidates an earlier ambiguous statement, replace that statement instead of duplicating; leave no obsolete contradictory text.
-    - Save the spec file AFTER each integration to minimize risk of context loss (atomic overwrite).
-    - Preserve formatting: do not reorder unrelated sections; keep heading hierarchy intact.
-    - Keep each inserted clarification minimal and testable (avoid narrative drift).
+5. Integracao apos CADA resposta aceita (atualizacao incremental):
+    - Manter representacao em memoria da spec (carregada no inicio) + conteudo bruto.
+    - Para a primeira resposta integrada:
+       - Garantir secao `## Esclarecimentos` (criar logo apos a secao contextual/visao geral se faltar).
+       - Embaixo, criar subsecao `### Sessao YYYY-MM-DD` para hoje.
+    - Adicionar linha de bullet: `- Q: <pergunta> -> A: <resposta final>`.
+    - Aplicar esclarecimento na secao mais apropriada:
+       - Ambiguidade funcional -> Atualizar/adicionar bullet em Requisitos Funcionais.
+       - Interacao/ator -> Atualizar Historias de Usuario ou secao de Atores.
+       - Dados/entidades -> Atualizar Modelo de Dados (campos, tipos, relacoes) mantendo ordem.
+       - Nao funcional -> Adicionar/modificar criterio mensuravel em Qualidade.
+       - Caso de borda/fluxo negativo -> Adicionar bullet em Casos de Borda/Erros.
+       - Conflito terminologico -> Normalizar termo; manter antigo so se necessario com
+         `(antes referido como "X")` uma vez.
+    - Se o esclarecimento invalida declaracao anterior ambigua, substituir em vez de duplicar.
+    - Salvar spec APOS cada integracao para reduzir risco de perda (sobrescrita atomica).
+    - Preservar formato: nao reordenar secoes; manter hierarquia de titulos.
+    - Manter cada esclarecimento minimo e testavel (evitar narrativas).
 
-6. Validation (performed after EACH write plus final pass):
-   - Clarifications session contains exactly one bullet per accepted answer (no duplicates).
-   - Total asked (accepted) questions ≤ 5.
-   - Updated sections contain no lingering vague placeholders the new answer was meant to resolve.
-   - No contradictory earlier statement remains (scan for now-invalid alternative choices removed).
-   - Markdown structure valid; only allowed new headings: `## Clarifications`, `### Session YYYY-MM-DD`.
-   - Terminology consistency: same canonical term used across all updated sections.
+6. Validacao (apos CADA escrita + passagem final):
+   - Sessao de esclarecimentos com exatamente um bullet por resposta aceita (sem duplicacao).
+   - Total de perguntas aceitas <= 5.
+   - Secoes atualizadas sem placeholders vagos relacionados.
+   - Sem contradicoes antigas (remover alternativas invalidadas).
+   - Estrutura Markdown valida; novos titulos permitidos: `## Esclarecimentos`, `### Sessao YYYY-MM-DD`.
+   - Consistencia terminologica: mesmo termo canonico nas secoes atualizadas.
 
-7. Write the updated spec back to `FEATURE_SPEC`.
+7. Gravar a spec atualizada em `FEATURE_SPEC`.
 
-8. Report completion (after questioning loop ends or early termination):
-   - Number of questions asked & answered.
-   - Path to updated spec.
-   - Sections touched (list names).
-   - Coverage summary table listing each taxonomy category with Status: Resolved (was Partial/Missing and addressed), Deferred (exceeds question quota or better suited for planning), Clear (already sufficient), Outstanding (still Partial/Missing but low impact).
-   - If any Outstanding or Deferred remain, recommend whether to proceed to `/speckit.plan` or run `/speckit.clarify` again later post-plan.
-   - Suggested next command.
+8. Reportar conclusao:
+   - Numero de perguntas feitas e respondidas.
+   - Caminho para a spec atualizada.
+   - Secoes tocadas (listar nomes).
+   - Tabela de cobertura com cada categoria e Status: Resolvido (era Parcial/Ausente e foi tratado),
+     Adiado (passou do limite ou melhor no planejamento), Claro (ja suficiente),
+     Pendente (ainda Parcial/Ausente, baixo impacto).
+   - Se houver Pendente/Adiado, recomendar seguir para `/speckit.plan` ou rodar
+     `/speckit.clarify` novamente apos o plano.
+   - Sugerir proximo comando.
 
-Behavior rules:
+Regras de comportamento:
 
-- If no meaningful ambiguities found (or all potential questions would be low-impact), respond: "No critical ambiguities detected worth formal clarification." and suggest proceeding.
-- If spec file missing, instruct user to run `/speckit.specify` first (do not create a new spec here).
-- Never exceed 5 total asked questions (clarification retries for a single question do not count as new questions).
-- Avoid speculative tech stack questions unless the absence blocks functional clarity.
-- Respect user early termination signals ("stop", "done", "proceed").
-- If no questions asked due to full coverage, output a compact coverage summary (all categories Clear) then suggest advancing.
-- If quota reached with unresolved high-impact categories remaining, explicitly flag them under Deferred with rationale.
+- Se nenhuma ambiguidade relevante for encontrada, responder:
+  "Nenhuma ambiguidade critica detectada para esclarecimento formal." e sugerir avancar.
+- Se spec faltar, instruir a rodar `/speckit.specify` primeiro (nao criar spec aqui).
+- Nunca exceder 5 perguntas (repeticoes para desambiguar nao contam como novas).
+- Evitar perguntas especulativas de stack se a ausencia nao bloquear clareza funcional.
+- Respeitar sinais de encerramento do usuario ("stop", "done", "proceed").
+- Se nao houver perguntas por cobertura completa, emitir resumo compacto e sugerir avancar.
+- Se o limite for atingido com categorias criticas pendentes, marcar como Adiado com justificativa.
 
-Context for prioritization: $ARGUMENTS
+Contexto para priorizacao: $ARGUMENTS

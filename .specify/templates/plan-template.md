@@ -1,104 +1,105 @@
-# Implementation Plan: [FEATURE]
+# Plano de Implementacao: [FUNCIONALIDADE]
 
-**Branch**: `[###-feature-name]` | **Date**: [DATE] | **Spec**: [link]
-**Input**: Feature specification from `/specs/[###-feature-name]/spec.md`
+**Branch**: `[###-feature-name]` | **Data**: [DATA] | **Especificacao**: [link]
+**Entrada**: Especificacao da funcionalidade em `/specs/[###-feature-name]/spec.md`
 
-**Note**: This template is filled in by the `/speckit.plan` command. See `.specify/templates/commands/plan.md` for the execution workflow.
+**Nota**: Este modelo e preenchido pelo comando `/speckit.plan`. Veja
+`.specify/templates/commands/plan.md` para o fluxo de execucao.
 
-## Summary
+## Resumo
 
-[Extract from feature spec: primary requirement + technical approach from research]
+[Extrair da especificacao: requisito principal + abordagem tecnica da pesquisa]
 
-## Technical Context
+## Contexto Tecnico
 
 <!--
-  ACTION REQUIRED: Replace the content in this section with the technical details
-  for the project. The structure here is presented in advisory capacity to guide
-  the iteration process.
+  ACAO OBRIGATORIA: Substitua o conteudo desta secao pelos detalhes tecnicos
+  do projeto. A estrutura aqui serve apenas como guia para a iteracao.
 -->
 
-**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]  
-**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]  
-**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]  
-**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]  
-**Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
-**Project Type**: [single/web/mobile - determines source structure]  
-**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]  
-**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]  
-**Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
+**Linguagem/Versao**: [ex.: Python 3.11, Swift 5.9, Rust 1.75 ou PRECISA DE CLAREZA]
+**Dependencias Principais**: [ex.: FastAPI, UIKit, LLVM; manter o minimo necessario]
+**Armazenamento**: [se aplicavel, ex.: PostgreSQL, CoreData, arquivos ou N/A]
+**Testes (opcional)**: [ex.: pytest, XCTest, cargo test ou N/A - testes nao obrigatorios]
+**Plataforma Alvo**: [ex.: Linux server, iOS 15+, WASM ou PRECISA DE CLAREZA]
+**Tipo de Projeto**: [unico/web/mobile - define a estrutura do codigo]
+**Metas de Desempenho**: [ex.: 1000 req/s, 10k linhas/seg, 60 fps ou PRECISA DE CLAREZA]
+**Restricoes**: [ex.: <200ms p95, <100MB memoria, offline ou PRECISA DE CLAREZA]
+**Escala/Escopo**: [ex.: 10k usuarios, 1M LOC, 50 telas ou PRECISA DE CLAREZA]
 
-## Constitution Check
+## Verificacao da Constituicao
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+*PORTAO: Deve passar antes da Pesquisa da Fase 0. Revalidar apos o Design da Fase 1.*
 
-[Gates determined based on constitution file]
+[Portoes definidos com base na constituicao]
 
-## Project Structure
+## Estrutura do Projeto
 
-### Documentation (this feature)
+### Documentacao (esta funcionalidade)
 
 ```text
 specs/[###-feature]/
-├── plan.md              # This file (/speckit.plan command output)
-├── research.md          # Phase 0 output (/speckit.plan command)
-├── data-model.md        # Phase 1 output (/speckit.plan command)
-├── quickstart.md        # Phase 1 output (/speckit.plan command)
-├── contracts/           # Phase 1 output (/speckit.plan command)
-└── tasks.md             # Phase 2 output (/speckit.tasks command - NOT created by /speckit.plan)
+|-- plan.md              # Este arquivo (saida do comando /speckit.plan)
+|-- research.md          # Saida da Fase 0 (/speckit.plan)
+|-- data-model.md        # Saida da Fase 1 (/speckit.plan)
+|-- quickstart.md        # Saida da Fase 1 (/speckit.plan)
+|-- contracts/           # Saida da Fase 1 (/speckit.plan)
+`-- tasks.md             # Saida da Fase 2 (/speckit.tasks - NAO criado por /speckit.plan)
 ```
 
-### Source Code (repository root)
+### Codigo-fonte (raiz do repositorio)
 <!--
-  ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
-  for this feature. Delete unused options and expand the chosen structure with
-  real paths (e.g., apps/admin, packages/something). The delivered plan must
-  not include Option labels.
+  ACAO OBRIGATORIA: Substitua a arvore abaixo pelo layout real desta
+  funcionalidade. Remova opcoes nao usadas e expanda a estrutura escolhida com
+  caminhos reais (ex.: apps/admin, packages/alguma-coisa). O plano entregue nao
+  deve incluir rotulos de Opcao.
 -->
 
 ```text
-# [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
+# [REMOVER SE NAO USAR] Opcao 1: Projeto unico (PADRAO)
 src/
-├── models/
-├── services/
-├── cli/
-└── lib/
+|-- models/
+|-- services/
+|-- cli/
+`-- lib/
 
 tests/
-├── contract/
-├── integration/
-└── unit/
+|-- contract/
+|-- integration/
+`-- unit/
 
-# [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
+# [REMOVER SE NAO USAR] Opcao 2: Aplicacao web (quando "frontend" + "backend" detectados)
 backend/
-├── src/
-│   ├── models/
-│   ├── services/
-│   └── api/
-└── tests/
+|-- src/
+|   |-- models/
+|   |-- services/
+|   `-- api/
+`-- tests/
 
 frontend/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   └── services/
-└── tests/
+|-- src/
+|   |-- components/
+|   |-- pages/
+|   `-- services/
+`-- tests/
 
-# [REMOVE IF UNUSED] Option 3: Mobile + API (when "iOS/Android" detected)
+# [REMOVER SE NAO USAR] Opcao 3: Mobile + API (quando "iOS/Android" detectado)
 api/
-└── [same as backend above]
+`-- [mesma estrutura do backend acima]
 
-ios/ or android/
-└── [platform-specific structure: feature modules, UI flows, platform tests]
+ios/ ou android/
+`-- [estrutura especifica da plataforma: modulos, fluxos de UI, testes]
 ```
 
-**Structure Decision**: [Document the selected structure and reference the real
-directories captured above]
+**Decisao de Estrutura**: [Documentar a estrutura escolhida e referenciar os
+caminhos reais acima]
 
-## Complexity Tracking
+## Rastreamento de Complexidade
 
-> **Fill ONLY if Constitution Check has violations that must be justified**
+> **Preencher SOMENTE se a Verificacao da Constituicao tiver violacoes que
+> precisam de justificativa**
 
-| Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
-| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
+| Violacao | Por que e necessario | Alternativa mais simples rejeitada porque |
+|-----------|----------------------|------------------------------------------|
+| [ex.: 4o projeto] | [necessidade atual] | [por que 3 projetos sao insuficientes] |
+| [ex.: Padrao Repository] | [problema especifico] | [por que acesso direto ao BD nao basta] |

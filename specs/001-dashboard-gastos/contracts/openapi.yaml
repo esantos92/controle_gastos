@@ -1,0 +1,196 @@
+openapi: 3.0.3
+info:
+  title: Controle de gastos - API
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths:
+  /despesas:
+    get:
+      summary: Listar despesas por mes
+      parameters:
+        - in: query
+          name: mes
+          required: true
+          schema:
+            type: string
+            example: 2026-01
+      responses:
+        "200":
+          description: Lista de despesas do mes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mes:
+                    type: string
+                  total_mensal:
+                    type: number
+                  despesas:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Despesa"
+    post:
+      summary: Criar despesa
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DespesaInput"
+      responses:
+        "201":
+          description: Despesa criada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Despesa"
+  /despesas/{id}:
+    patch:
+      summary: Atualizar despesa
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DespesaInput"
+      responses:
+        "200":
+          description: Despesa atualizada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Despesa"
+    delete:
+      summary: Excluir despesa
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Despesa removida
+  /dashboard/mensal:
+    get:
+      summary: Dashboard mensal com total e distribuicao por categoria
+      parameters:
+        - in: query
+          name: mes
+          required: true
+          schema:
+            type: string
+            example: 2026-01
+      responses:
+        "200":
+          description: Dados agregados do mes
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardMensal"
+  /dashboard/comparativo:
+    get:
+      summary: Comparativo de meses e recorrencias
+      parameters:
+        - in: query
+          name: inicio
+          required: true
+          schema:
+            type: string
+            example: 2025-10
+        - in: query
+          name: fim
+          required: true
+          schema:
+            type: string
+            example: 2026-01
+      responses:
+        "200":
+          description: Serie temporal e categorias recorrentes
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardComparativo"
+components:
+  schemas:
+    Despesa:
+      type: object
+      properties:
+        id:
+          type: integer
+        valor:
+          type: number
+        data:
+          type: string
+          format: date
+        categoria:
+          type: string
+        descricao:
+          type: string
+    DespesaInput:
+      type: object
+      required:
+        - valor
+        - data
+      properties:
+        valor:
+          type: number
+        data:
+          type: string
+          format: date
+        categoria:
+          type: string
+        descricao:
+          type: string
+    DashboardMensal:
+      type: object
+      properties:
+        mes:
+          type: string
+        total_mensal:
+          type: number
+        por_categoria:
+          type: array
+          items:
+            type: object
+            properties:
+              categoria:
+                type: string
+              total:
+                type: number
+    DashboardComparativo:
+      type: object
+      properties:
+        periodo:
+          type: object
+          properties:
+            inicio:
+              type: string
+            fim:
+              type: string
+        totais_por_mes:
+          type: array
+          items:
+            type: object
+            properties:
+              mes:
+                type: string
+              total:
+                type: number
+        categorias_recorrentes:
+          type: array
+          items:
+            type: object
+            properties:
+              categoria:
+                type: string
+              ocorrencias:
+                type: integer

@@ -1,82 +1,94 @@
 ---
-description: Create or update the project constitution from interactive or provided principle inputs, ensuring all dependent templates stay in sync.
-handoffs: 
-  - label: Build Specification
+description: Criar ou atualizar a constituicao do projeto com base em principios fornecidos, mantendo templates dependentes sincronizados.
+handoffs:
+  - label: Criar Especificacao
     agent: speckit.specify
-    prompt: Implement the feature specification based on the updated constitution. I want to build...
+    prompt: Implementar a especificacao da funcionalidade com base na constituicao atualizada. Quero construir...
 ---
 
-## User Input
+## Entrada do Usuario
 
 ```text
 $ARGUMENTS
 ```
 
-You **MUST** consider the user input before proceeding (if not empty).
+Voce DEVE considerar a entrada do usuario antes de prosseguir (se nao estiver vazia).
 
-## Outline
+## Roteiro
 
-You are updating the project constitution at `.specify/memory/constitution.md`. This file is a TEMPLATE containing placeholder tokens in square brackets (e.g. `[PROJECT_NAME]`, `[PRINCIPLE_1_NAME]`). Your job is to (a) collect/derive concrete values, (b) fill the template precisely, and (c) propagate any amendments across dependent artifacts.
+Voce esta atualizando a constituicao do projeto em `.specify/memory/constitution.md`.
+Este arquivo e um MODELO com placeholders entre colchetes (ex.: `[PROJECT_NAME]`,
+`[PRINCIPLE_1_NAME]`). Seu trabalho e (a) coletar/derivar valores concretos,
+(b) preencher o modelo com precisao e (c) propagar alteracoes para artefatos
+dependentes.
 
-Follow this execution flow:
+Siga este fluxo:
 
-1. Load the existing constitution template at `.specify/memory/constitution.md`.
-   - Identify every placeholder token of the form `[ALL_CAPS_IDENTIFIER]`.
-   **IMPORTANT**: The user might require less or more principles than the ones used in the template. If a number is specified, respect that - follow the general template. You will update the doc accordingly.
+1. Carregue o modelo em `.specify/memory/constitution.md`.
+   - Identifique todo placeholder do tipo `[ALL_CAPS_IDENTIFIER]`.
+   **IMPORTANTE**: O usuario pode exigir menos ou mais principios do que no modelo.
+   Se um numero for especificado, respeite-o e ajuste o documento.
 
-2. Collect/derive values for placeholders:
-   - If user input (conversation) supplies a value, use it.
-   - Otherwise infer from existing repo context (README, docs, prior constitution versions if embedded).
-   - For governance dates: `RATIFICATION_DATE` is the original adoption date (if unknown ask or mark TODO), `LAST_AMENDED_DATE` is today if changes are made, otherwise keep previous.
-   - `CONSTITUTION_VERSION` must increment according to semantic versioning rules:
-     - MAJOR: Backward incompatible governance/principle removals or redefinitions.
-     - MINOR: New principle/section added or materially expanded guidance.
-     - PATCH: Clarifications, wording, typo fixes, non-semantic refinements.
-   - If version bump type ambiguous, propose reasoning before finalizing.
+2. Colete/derive valores para placeholders:
+   - Se a conversa fornecer valor, use-o.
+   - Caso contrario, inferir do contexto do repo (README, docs, versoes anteriores).
+   - Para datas de governanca: `RATIFICATION_DATE` e a data original (se desconhecida,
+     pedir ou marcar TODO), `LAST_AMENDED_DATE` e hoje se houver mudancas.
+   - `CONSTITUTION_VERSION` deve seguir semver:
+     - MAJOR: mudancas incompativeis ou remocao/redefinicao de principios.
+     - MINOR: novo principio/secao ou expansao material.
+     - PATCH: esclarecimentos, ajustes de texto, correcoes.
+   - Se o tipo de incremento for ambiguo, explique o raciocinio antes de finalizar.
 
-3. Draft the updated constitution content:
-   - Replace every placeholder with concrete text (no bracketed tokens left except intentionally retained template slots that the project has chosen not to define yet—explicitly justify any left).
-   - Preserve heading hierarchy and comments can be removed once replaced unless they still add clarifying guidance.
-   - Ensure each Principle section: succinct name line, paragraph (or bullet list) capturing non‑negotiable rules, explicit rationale if not obvious.
-   - Ensure Governance section lists amendment procedure, versioning policy, and compliance review expectations.
+3. Redija o conteudo atualizado:
+   - Substitua todos os placeholders por texto concreto (sem tokens restantes,
+     exceto se intencional e justificado).
+   - Preservar hierarquia de titulos; comentarios podem ser removidos apos substituicao.
+   - Cada principio deve ter: nome conciso, regras nao negociaveis, e racional se necessario.
+   - A secao de Governanca deve listar procedimento de emenda, politica de versionamento
+     e expectativa de revisao de conformidade.
 
-4. Consistency propagation checklist (convert prior checklist into active validations):
-   - Read `.specify/templates/plan-template.md` and ensure any "Constitution Check" or rules align with updated principles.
-   - Read `.specify/templates/spec-template.md` for scope/requirements alignment—update if constitution adds/removes mandatory sections or constraints.
-   - Read `.specify/templates/tasks-template.md` and ensure task categorization reflects new or removed principle-driven task types (e.g., observability, versioning, testing discipline).
-   - Read each command file in `.specify/templates/commands/*.md` (including this one) to verify no outdated references (agent-specific names like CLAUDE only) remain when generic guidance is required.
-   - Read any runtime guidance docs (e.g., `README.md`, `docs/quickstart.md`, or agent-specific guidance files if present). Update references to principles changed.
+4. Checklist de propagacao (validacoes ativas):
+   - Ler `.specify/templates/plan-template.md` e alinhar "Verificacao da Constituicao".
+   - Ler `.specify/templates/spec-template.md` e alinhar escopo/requisitos.
+   - Ler `.specify/templates/tasks-template.md` e alinhar categorias de tarefas.
+   - Ler comandos em `.specify/templates/commands/*.md` (incluindo este) para remover
+     referencias desatualizadas.
+   - Ler docs de orientacao em tempo de execucao (ex.: `README.md`, `docs/quickstart.md`)
+     e atualizar referencias aos principios.
 
-5. Produce a Sync Impact Report (prepend as an HTML comment at top of the constitution file after update):
-   - Version change: old → new
-   - List of modified principles (old title → new title if renamed)
-   - Added sections
-   - Removed sections
-   - Templates requiring updates (✅ updated / ⚠ pending) with file paths
-   - Follow-up TODOs if any placeholders intentionally deferred.
+5. Produzir Relatorio de Impacto de Sincronizacao (comentario HTML no topo):
+   - Alteracao de versao: antiga -> nova
+   - Lista de principios modificados (titulo antigo -> novo se renomeado)
+   - Secoes adicionadas
+   - Secoes removidas
+   - Templates que exigiram atualizacao (OK atualizado / PENDENTE) com caminhos
+   - TODOs de acompanhamento se houver placeholders adiados
 
-6. Validation before final output:
-   - No remaining unexplained bracket tokens.
-   - Version line matches report.
-   - Dates ISO format YYYY-MM-DD.
-   - Principles are declarative, testable, and free of vague language ("should" → replace with MUST/SHOULD rationale where appropriate).
+6. Validacao antes de finalizar:
+   - Nenhum placeholder sem explicacao.
+   - Linha de versao combina com o relatorio.
+   - Datas em formato ISO YYYY-MM-DD.
+   - Principios declarativos, testaveis e sem linguagem vaga ("deve"/"deveria").
 
-7. Write the completed constitution back to `.specify/memory/constitution.md` (overwrite).
+7. Grave a constituicao final em `.specify/memory/constitution.md` (sobrescrever).
 
-8. Output a final summary to the user with:
-   - New version and bump rationale.
-   - Any files flagged for manual follow-up.
-   - Suggested commit message (e.g., `docs: amend constitution to vX.Y.Z (principle additions + governance update)`).
+8. Responda ao usuario com:
+   - Nova versao e racional do incremento.
+   - Arquivos com pendencias de acompanhamento.
+   - Mensagem de commit sugerida (ex.: `docs: atualizar constituicao para vX.Y.Z`).
 
-Formatting & Style Requirements:
+Requisitos de formato e estilo:
 
-- Use Markdown headings exactly as in the template (do not demote/promote levels).
-- Wrap long rationale lines to keep readability (<100 chars ideally) but do not hard enforce with awkward breaks.
-- Keep a single blank line between sections.
-- Avoid trailing whitespace.
+- Usar titulos exatamente como no modelo (nao promover/diminuir niveis).
+- Quebrar linhas longas para legibilidade (ate ~100 caracteres quando possivel).
+- Manter um espaco em branco entre secoes.
+- Evitar espacos em branco no final das linhas.
 
-If the user supplies partial updates (e.g., only one principle revision), still perform validation and version decision steps.
+Se o usuario fornecer atualizacoes parciais (ex.: so um principio), ainda execute
+validacoes e decisao de versao.
 
-If critical info missing (e.g., ratification date truly unknown), insert `TODO(<FIELD_NAME>): explanation` and include in the Sync Impact Report under deferred items.
+Se informacao critica faltar (ex.: data de ratificacao), inserir
+`TODO(<FIELD_NAME>): explicacao` e incluir no relatorio.
 
-Do not create a new template; always operate on the existing `.specify/memory/constitution.md` file.
+Nao criar novo modelo; sempre operar no arquivo existente.
