@@ -12,7 +12,7 @@
         <canvas
           data-controller="chart"
           data-chart-type-value="doughnut"
-          data-chart-data-value='{ "labels": <%= raw(@labels_categoria.to_json) %>, "datasets": [{ "data": <%= raw(@totais_categoria.to_json) %>, "backgroundColor": ["#0d6efd", "#20c997", "#ffc107", "#dc3545", "#6f42c1"] }] }'>
+          data-chart-data-value="<%= json_escape({ labels: @labels_categoria, datasets: [{ data: @totais_categoria, backgroundColor: ["#0d6efd", "#20c997", "#ffc107", "#dc3545", "#6f42c1"] }] }.to_json) %>">
         </canvas>
       </div>
     </div>

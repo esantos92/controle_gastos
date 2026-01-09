@@ -1,5 +1,4 @@
 import { Controller } from "@hotwired/stimulus"
-import { Chart, registerables } from "chart.js"
 
 export default class extends Controller {
   static values = {
@@ -9,10 +8,12 @@ export default class extends Controller {
   }
 
   connect() {
+    const { Chart } = window
+    if (!Chart) return
+
     const ctx = this.element.getContext("2d")
     if (!ctx) return
 
-    Chart.register(...registerables)
     this.chart = new Chart(ctx, {
       type: this.typeValue || "bar",
       data: this.dataValue || {},

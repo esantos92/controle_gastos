@@ -4,7 +4,7 @@ class DashboardsController < ApplicationController
     @total_mensal = Despesa.total_mensal(@mes)
     @por_categoria = Despesa.por_categoria(@mes)
     @labels_categoria = @por_categoria.keys
-    @totais_categoria = @por_categoria.values
+    @totais_categoria = @por_categoria.values.map(&:to_f)
   end
 
   def comparativo
